@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16"  href="/media/photos/favicon.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    <title>서윤이의 생일을 축하합니다!</title>
+    <style>
+
+        body {
+            background-color : rgb(255, 224, 230, 1);
+            font-family: "Poor Story", system-ui;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        /* 공통 폼 그룹 스타일링 */
+        .form-group {
+            margin-bottom: 40px;
+        }
+
+        /* 텍스트 입력 필드 스타일링 */
+        input[type="text"] {
+            display: block; /* 블록 레벨 요소로 만들어 줄 바꿈 효과 */
+            width: 100%; /* 부모 요소의 전체 너비 사용 */
+            margin-top: 20px; /* 레이블과의 간격 */
+            padding: 8px; /* 패딩 */
+            border: 1px solid #ccc; /* 테두리 */
+            border-radius: 4px; /* 테두리 둥글게 */
+        }
+
+        /* 텍스트 영역 스타일링 */
+        textarea {
+            display: block;
+            width: 100%;
+            height: 100px; /* 고정 높이 */
+            margin-top: 20px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none; /* 크기 조절 비활성화 */
+            align-item: center;
+        }
+
+        .form-container {
+	    text-align: center;
+            width: 100%;
+            margin-bottom: 100px;
+	    margin-top: 40px;
+        }
+
+        .img-container {
+            display: flex;
+            overflow: hidden;
+            margin-top: 5%;
+            margin-bottom: 5%;
+        }
+
+        .slide {
+            flex: 0 0 auto;
+            width: 25%;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .like-content .btn-secondary {
+            display: block;
+            margin: 30px auto 0px;
+            text-align: center;
+            background: #ed2553;
+            border-radius: 3px;
+            box-shadow: 0 10px 20px -8px rgb(240, 75, 113);
+            padding: 10px 17px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            text-decoration: none;
+            -webkit-transition: 0.3s ease;
+            transition: 0.3s ease;
+        }
+
+        .like-content .btn-secondary:hover {
+            transform: translateY(-3px);
+        }
+
+        .like-content .btn-secondary .fa {
+            margin-right: 5px;
+        }
+
+        .animate-like {
+          animation-name: likeAnimation;
+          animation-iteration-count: 1;
+          animation-fill-mode: forwards;
+          animation-duration: 0.65s;
+        }
+
+        @keyframes likeAnimation {
+          0%   { transform: scale(30); }
+          100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+<h1 style="text-align: center; font-size: 24pt; margin-top: 50px;">2024년 5월 5일</h1>
+<h1 style="text-align: center; font-size: 30pt;">🎉 서윤이의 생일을</h1>
+<h1 style="text-align: center; font-size: 30pt; margin-bottom: 50px;"> 축하합니다!! 🎉</h1>
+<div class="img-container" id="imgContainer">
+    {% for photo in photos %}
+    <img src="{{ photo.image.url }}" alt="{{ photo.description }}" class="slide">
+    {% endfor %}
+</div>
+<h2 style="text-align: center; margin-top: 100px;">축하 메시지 목록</h2>
+<ul style="text-align: center; margin:0; padding:0;">
+    {% if messages %}
+    {% for message in messages %}
+    <li style="list-style-type : none; margin:0; padding:0; margin-bottom: 20px;">{{ message.create_at }}<br><strong style="font-size: 16pt;">{{ message.nickname }}</strong><br> {{ message.message }}</li>
+    {% endfor %}
+    {% else %}
+    <li style="list-style-type : none; margin:0; padding:0; margin-top: 30px; margin-bottom: 100px;"><strong>아직 메시지가 작성되지 않았습니다!</strong></li>
+    {% endif %}
+</ul>
+<h2 style="text-align: center; margin-top: 100px;">축하 메시지 남기기</h2>
+<p style="text-align: center; margin-top: 10px;">수정, 삭제가 불가능하니 예쁜 말만 부탁드립니다😉</p>
+<p style="text-align: center; margin-top: 10px;">혹시라도 잘못 작성하셨으면 @y_2chan으로 연락주세요!</p>
+<div class="form-container">
+    <form method="post" style="text-align: center; width: 60%; margin: 0px auto;" id="messageForm">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ message_form.nickname.id_for_label }}" style="font-size: 16pt;">닉네임</label>
+            <input type="text" name="{{ message_form.nickname.name }}" id="{{ message_form.nickname.id_for_label }}" value="{{ message_form.nickname.value|default_if_none:'' }}" placeholder="여기에 닉네임을 적어주세요." style="text-align: center;">
+            <!-- 별명 경고 메시지 -->
+            <div id="nicknameWarning" style="color: red; font-size: 10pt; margin-top: 5px;"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ message_form.message.id_for_label }}" style="font-size: 16pt;">남기고 싶은 말</label>
+            <textarea name="{{ message_form.message.name }}" id="{{ message_form.message.id_for_label }}" placeholder="여기에 남기고 싶은 말을 적어주세요." style="text-align: center;"></textarea>
+            <!-- 메시지 경고 메시지 -->
+            <div id="messageWarning" style="color: red; font-size: 10pt; margin-top: 5px;"></div>
+        </div>
+        <div class="like-content">
+            <button class="btn-secondary like-review" type="submit" name="post_message">메시지 남기기</button>
+        </div>
+    </form>
+</div>
+<a style="display:scroll;position:fixed;bottom:80px; right:30px;" rel="nofollow"
+
+   href="#" style="font-size:2.0em"><img src="/media/photos/top.png"></a>
+
+
+
+<a style="display:scroll;position:fixed;bottom:40px; right:30px;" rel="nofollow"
+
+   href="#scrollbottom" style="font-size:2.0em"><img src="/media/photos/down.png"></a>
+
+<div id="scrollbottom"></div>
+<script>
+    let currentIndex = 0;
+    const slides = document.querySelectorAll(".slide");
+    const totalSlides = slides.length;
+
+    function showAllSlides() {
+        // 1초간 모든 슬라이드를 보여줍니다.
+        slides.forEach(slide => {
+            slide.style.opacity = "1";
+        });
+    }
+
+    function showSlide(index) {
+        // 모든 슬라이드 숨기기
+        slides.forEach(slide => {
+            slide.style.opacity = "0";
+        });
+
+        // 현재 인덱스부터 시작하여 순차적으로 슬라이드 보여주기
+        for(let i = 0; i < totalSlides; i++) {
+            let targetIndex = (index + i) % totalSlides; // 순환을 위한 계산
+            setTimeout(() => {
+                slides[targetIndex].style.opacity = "1";
+            }, i * 800); // 여기서 800은 각 슬라이드가 나타나는 시간 간격입니다.
+        }
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        showSlide(currentIndex);
+    }
+
+    // 첫 로드 시 모든 슬라이드를 1초간 보여주고, 그 후에 원래 동작 실행
+    showAllSlides();
+    setTimeout(() => {
+        // 초기 슬라이드 설정 및 주기적인 슬라이드 변경 시작
+        showSlide(currentIndex);
+        setInterval(nextSlide, 3200 + 800); // 첫번째 슬라이드가 시작되고 마지막 슬라이드가 끝나기까지의 시간
+    }, 1000); // 1초 뒤에 원래 동작 실행
+</script>
+
+<script>
+    document.getElementById('messageForm').onsubmit = function() {
+        // 초기 상태에서 경고 메시지를 비웁니다.
+        document.getElementById('nicknameWarning').textContent = '';
+        document.getElementById('messageWarning').textContent = '';
+
+        // 별명 입력 필드와 메시지 입력 필드 값을 가져옵니다.
+        var nickname = document.getElementById('{{ message_form.nickname.id_for_label }}').value;
+        var message = document.getElementById('{{ message_form.message.id_for_label }}').value;
+        var isValid = true;
+
+        // 별명이 1글자 미만인 경우
+        if (nickname.length < 1) {
+            document.getElementById('nicknameWarning').textContent = '별명은 최소 1글자 이상 입력해야 합니다.';
+            isValid = false;
+        }
+
+        // 메시지가 5글자 미만인 경우
+        if (message.length < 5) {
+            document.getElementById('messageWarning').textContent = '메시지는 최소 5글자 이상 입력해야 합니다.';
+            isValid = false;
+        }
+
+        // 유효성 검사를 통과하지 못하면 폼 제출을 방지합니다.
+        return isValid;
+    };
+</script>
+</body>
+</html>
+
