@@ -2,20 +2,22 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="16x16"  href="/media/photos/favicon.png">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
     <title>서윤이의 생일을 축하합니다!</title>
     <style>
 
+	@font-face {
+  		font-family: 'Seolleim';
+  		src: url('/var/www/html/fonts/Seolleim.ttf') format('truetype'); /* 폰트 파일 경로와 이름을 확인하세요 */
+		font-weight: 400;
+                font-style: normal;
+	}
+
         body {
             background-color : rgb(255, 224, 230, 1);
-            font-family: "Poor Story", system-ui;
-            font-weight: 400;
-            font-style: normal;
+	    font-family: 'Seolleim', sans-serif;
         }
 
         /* 공통 폼 그룹 스타일링 */
@@ -104,6 +106,31 @@
           0%   { transform: scale(30); }
           100% { transform: scale(1); }
         }
+
+        .heart-line {
+            display: flex;
+	    justify-content: center;
+            align-items: center;
+        }
+    
+        .heart {
+            margin-right: 5px; /* 하트 사이의 간격 조절 */
+            animation: heart-animation 1s infinite;
+	    font-size: 5pt;
+        }
+    
+        @keyframes heart-animation {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -119,7 +146,29 @@
 <ul style="text-align: center; margin:0; padding:0;">
     {% if messages %}
     {% for message in messages %}
-    <li style="list-style-type : none; margin:0; padding:0; margin-bottom: 20px;">{{ message.create_at }}<br><strong style="font-size: 16pt;">{{ message.nickname }}</strong><br> {{ message.message }}</li>
+    <li style="list-style-type : none; margin:0; padding:0; margin-bottom: 20px; margin-top: 20px;">{{ message.create_at }}<br><strong style="font-size: 16pt;">{{ message.nickname }}</strong><br> {{ message.message }}</li>
+    <div class="heart-line">
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+	<span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+	<span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+	<span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+    </div>
     {% endfor %}
     {% else %}
     <li style="list-style-type : none; margin:0; padding:0; margin-top: 30px; margin-bottom: 100px;"><strong>아직 메시지가 작성되지 않았습니다!</strong></li>
