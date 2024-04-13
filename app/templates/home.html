@@ -3,21 +3,18 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="16x16"  href="/media/photos/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
     <title>서윤이의 생일을 축하합니다!</title>
     <style>
-
-	@font-face {
-  		font-family: 'Seolleim';
-  		src: url('/var/www/html/fonts/Seolleim.ttf') format('truetype'); /* 폰트 파일 경로와 이름을 확인하세요 */
-		font-weight: 400;
-                font-style: normal;
-	}
-
-        body {
+	body {
             background-color : rgb(255, 224, 230, 1);
-	    font-family: 'Seolleim', sans-serif;
+            font-family: "Poor Story", system-ui;
+            font-weight: 400;
+            font-style: normal;
         }
 
         /* 공통 폼 그룹 스타일링 */
@@ -64,7 +61,7 @@
 
         .slide {
             flex: 0 0 auto;
-            width: 25%;
+            width: 33%;
             opacity: 0;
             transition: opacity 1s ease;
         }
@@ -137,6 +134,7 @@
 <h1 style="text-align: center; font-size: 24pt; margin-top: 50px;">2024년 5월 5일</h1>
 <h1 style="text-align: center; font-size: 30pt;">🎉 서윤이의 생일을</h1>
 <h1 style="text-align: center; font-size: 30pt; margin-bottom: 50px;"> 축하합니다!! 🎉</h1>
+
 <div class="img-container" id="imgContainer">
     {% for photo in photos %}
     <img src="{{ photo.image.url }}" alt="{{ photo.description }}" class="slide">
@@ -192,6 +190,8 @@
             <textarea name="{{ message_form.message.name }}" id="{{ message_form.message.id_for_label }}" placeholder="여기에 남기고 싶은 말을 적어주세요." style="text-align: center;"></textarea>
             <!-- 메시지 경고 메시지 -->
             <div id="messageWarning" style="color: red; font-size: 10pt; margin-top: 5px;"></div>
+	    {% csrf_token %}
+            <button type="submit" name="upload_photo">사진 업로드</button>
         </div>
         <div class="like-content">
             <button class="btn-secondary like-review" type="submit" name="post_message">메시지 남기기</button>
