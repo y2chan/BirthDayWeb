@@ -10,9 +10,16 @@
     <meta name="theme-color" content="#ffffff">
     <title>서윤이의 생일을 축하합니다!</title>
     <style>
+	@font-face {
+    	    font-family: 'MyCustomFont';
+	    src: url('/fonts/SEOLEIMcool.ttf') format('truetype');
+    	    font-weight: normal;
+    	    font-style: normal;
+	}
+
 	body {
             background-color : rgb(255, 224, 230, 1);
-            font-family: "Poor Story", system-ui;
+            font-family: 'MyCustomFont';
             font-weight: 400;
             font-style: normal;
         }
@@ -25,7 +32,7 @@
         /* 텍스트 입력 필드 스타일링 */
         input[type="text"] {
             display: block; /* 블록 레벨 요소로 만들어 줄 바꿈 효과 */
-            width: 100%; /* 부모 요소의 전체 너비 사용 */
+            width: 95%; /* 부모 요소의 전체 너비 사용 */
             margin-top: 20px; /* 레이블과의 간격 */
             padding: 8px; /* 패딩 */
             border: 1px solid #ccc; /* 테두리 */
@@ -33,12 +40,12 @@
         }
 
 	.filebox .upload-name {
-    	    display: inline-block;
+    	    display: flex;
     	    height: 40px;
     	    padding: 0 10px;
     	    vertical-align: middle;
     	    border: 1px solid #dddddd;
-    	    width: 78%;
+    	    width: 95%;
     	    color: #999999;
 	}
 
@@ -51,7 +58,7 @@
     	    background-color: #999999;
     	    cursor: pointer;
     	    height: 40px;
-    	    margin-left: 10px;
+    	    margin-top: 10px;
 	}
 
 	.filebox input[type="file"] {
@@ -66,7 +73,7 @@
         /* 텍스트 영역 스타일링 */
         textarea {
             display: block;
-            width: 100%;
+            width: 95%;
             height: 100px; /* 고정 높이 */
             margin-top: 20px;
             padding: 8px;
@@ -167,9 +174,9 @@
     </style>
 </head>
 <body>
-<h1 style="text-align: center; font-size: 24pt; margin-top: 50px;">2024년 5월 5일</h1>
-<h1 style="text-align: center; font-size: 30pt;">🎉 서윤이의 생일을</h1>
-<h1 style="text-align: center; font-size: 30pt; margin-bottom: 50px;"> 축하합니다!! 🎉</h1>
+<h1 style="text-align: center; font-size: 20pt; margin-top: 50px;">2024년 5월 5일</h1>
+<h1 style="text-align: center; font-size: 27pt;">🎉 서윤이의 생일을</h1>
+<h1 style="text-align: center; font-size: 27pt; margin-bottom: 50px;"> 축하합니다!! 🎉</h1>
 
 <div class="img-container" id="imgContainer">
     {% for photo in photos %}
@@ -177,13 +184,36 @@
     {% endfor %}
 </div>
 <h2 style="text-align: center; margin-top: 100px;">축하 메시지 목록</h2>
+<p style="text-align: center; margin-top: 10px; font-size: 11pt;"><img src="/media/photos/down.png" width="20px">&nbsp;키 클릭 시 축하 메시지 남기기로 갑니다!</p>
 <ul style="text-align: center; margin:0; padding:0;">
+    <div class="heart-line">
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+        <span class="heart">💖</span>
+    </div>
     {% if messages %}
     {% for message in messages %}
     	{% if message.image %}
-    		<li style="list-style-type: none; margin:0; padding:0; margin-bottom: 20px; margin-top: 20px;"><img src="{{ message.image.url }}" class="message_image"><br>{{ message.create_at }}<br><strong style="font-size: 16pt;">{{ message.nickname }}</strong><br> {{ message.message }}</li>
+    		<li style="list-style-type: none; margin:0; padding:0; margin-bottom: 20px; margin-top: 20px; font-size: 11pt;"><img src="{{ message.image.url }}" class="message_image"><br>{{ message.create_at }}<br><strong style="font-size: 15pt;">{{ message.nickname }}</strong><br> {{ message.message }}</li>
 	{% else %}
-    		<li style="list-style-type: none; margin:0; padding:0; margin-bottom: 20px; margin-top: 20px;"><br>{{ message.create_at }}<br><strong style="font-size: 16pt;">{{ message.nickname }}</strong><br> {{ message.message }}</li>
+    		<li style="list-style-type: none; margin:0; padding:0; margin-bottom: 20px; margin-top: 20px; font-size: 11pt;"><br>{{ message.create_at }}<br><strong style="font-size: 15pt;">{{ message.nickname }}</strong><br> {{ message.message }}</li>
 	{% endif %}
     <div class="heart-line">
         <span class="heart">💖</span>
@@ -212,30 +242,31 @@
     <li style="list-style-type : none; margin:0; padding:0; margin-top: 30px; margin-bottom: 100px;"><strong>아직 메시지가 작성되지 않았습니다!</strong></li>
     {% endif %}
 </ul>
-<h2 style="text-align: center; margin-top: 100px;">축하 메시지 남기기</h2>
-<p style="text-align: center; margin-top: 10px;">수정, 삭제가 불가능하니 예쁜 말만 부탁드립니다😉</p>
-<p style="text-align: center; margin-top: 10px;">혹시라도 잘못 작성하셨으면 @y_2chan으로 연락주세요!</p>
+<h2 id="congratsMessage" style="text-align: center; margin-top: 100px;">축하 메시지 남기기</h2>
+<p style="text-align: center; margin-top: 10px; font-size: 11pt;">수정, 삭제가 불가능하니 예쁜 말만 부탁드립니다😉</p>
+<p style="text-align: center; margin-top: 10px; font-size: 11pt;">사진은 첨부하셔도 되고 안하셔도 좋습니다.</p>
+<p style="text-align: center; margin-top: 10px; font-size: 11pt;">혹시라도 잘못 작성하셨으면 @y_2chan으로 연락주세요!</p>
 <div class="form-container">
     <form method="post" enctype="multipart/form-data" style="text-align: center; width: 60%; margin: 0px auto;" id="messageForm">
         {% csrf_token %}
         <div class="form-group">
-            <label for="{{ message_form.nickname.id_for_label }}" style="font-size: 16pt;">닉네임</label>
+            <label for="{{ message_form.nickname.id_for_label }}" style="font-size: 15pt;">닉네임</label>
             <input type="text" name="{{ message_form.nickname.name }}" id="{{ message_form.nickname.id_for_label }}" value="{{ message_form.nickname.value|default_if_none:'' }}" placeholder="여기에 닉네임을 적어주세요." style="text-align: center;">
             <!-- 별명 경고 메시지 -->
             <div id="nicknameWarning" style="color: red; font-size: 10pt; margin-top: 5px;"></div>
         </div>
 
         <div class="form-group">
-            <label for="{{ message_form.message.id_for_label }}" style="font-size: 16pt;">남기고 싶은 말</label>
+            <label for="{{ message_form.message.id_for_label }}" style="font-size: 15pt;">남기고 싶은 말</label>
             <textarea name="{{ message_form.message.name }}" id="{{ message_form.message.id_for_label }}" placeholder="여기에 남기고 싶은 말을 적어주세요." style="text-align: center;"></textarea>
             <!-- 메시지 경고 메시지 -->
             <div id="messageWarning" style="color: red; font-size: 10pt; margin-top: 5px;"></div>
         </div>
 	<div class="form-group">
-	    <label for="{{ message_form.message.id_for_label }}" style="font-size: 16pt;">사진 첨부하기</label>
+	    <label for="{{ message_form.message.id_for_label }}" style="font-size: 15pt;">사진 첨부하기</label>
 	    <div class="filebox" style="margin-top: 20px;">
 		<input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
-		<label for="image">사진 첨부</label>
+		<label for="image">사진 선택</label>
             	<input type="file" name="image" id="image" style="text-align: center;">
 	    </div>
         </div>
@@ -244,17 +275,11 @@
         </div>
     </form>
 </div>
-<a style="display:scroll;position:fixed;bottom:80px; right:30px;" rel="nofollow"
 
-   href="#" style="font-size:2.0em"><img src="/media/photos/top.png"></a>
-
-
-
-<a style="display:scroll;position:fixed;bottom:40px; right:30px;" rel="nofollow"
-
-   href="#scrollbottom" style="font-size:2.0em"><img src="/media/photos/down.png"></a>
-
+<a style="display:scroll;position:fixed;bottom:80px; right:30px;" rel="nofollow" href="#" style="font-size:2.0em"><img src="/media/photos/top.png"></a>
+<a style="display:scroll;position:fixed;bottom:40px; right:30px;" rel="nofollow" href="#congratsMessage" style="font-size:2.0em"><img src="/media/photos/down.png"></a>
 <div id="scrollbottom"></div>
+
 <script>
     let currentIndex = 0;
     const slides = document.querySelectorAll(".slide");
