@@ -32,6 +32,37 @@
             border-radius: 4px; /* 테두리 둥글게 */
         }
 
+	.filebox .upload-name {
+    	    display: inline-block;
+    	    height: 40px;
+    	    padding: 0 10px;
+    	    vertical-align: middle;
+    	    border: 1px solid #dddddd;
+    	    width: 78%;
+    	    color: #999999;
+	}
+
+	.filebox label {
+    	    display: inline-block;
+    	    padding: 0px 10px;
+    	    color: #fff;
+    	    vertical-align: middle;
+	    line-height: 40px;
+    	    background-color: #999999;
+    	    cursor: pointer;
+    	    height: 40px;
+    	    margin-left: 10px;
+	}
+
+	.filebox input[type="file"] {
+	    position: absolute;
+    	    width: 0;
+    	    height: 0;
+    	    padding: 0;
+    	    overflow: hidden;
+    	    border: 0;
+        }
+
         /* 텍스트 영역 스타일링 */
         textarea {
             display: block;
@@ -64,6 +95,11 @@
             width: 33%;
             opacity: 0;
             transition: opacity 1s ease;
+        }
+
+	.message_image {
+            flex: 0 0 auto;
+            width: 50%;
         }
 
         .like-content .btn-secondary {
@@ -144,7 +180,11 @@
 <ul style="text-align: center; margin:0; padding:0;">
     {% if messages %}
     {% for message in messages %}
-    <li style="list-style-type : none; margin:0; padding:0; margin-bottom: 20px; margin-top: 20px;">{{ message.create_at }}<br><strong style="font-size: 16pt;">{{ message.nickname }}</strong><br> {{ message.message }}</li>
+    	{% if message.image %}
+    		<li style="list-style-type: none; margin:0; padding:0; margin-bottom: 20px; margin-top: 20px;"><img src="{{ message.image.url }}" class="message_image"><br>{{ message.create_at }}<br><strong style="font-size: 16pt;">{{ message.nickname }}</strong><br> {{ message.message }}</li>
+	{% else %}
+    		<li style="list-style-type: none; margin:0; padding:0; margin-bottom: 20px; margin-top: 20px;"><br>{{ message.create_at }}<br><strong style="font-size: 16pt;">{{ message.nickname }}</strong><br> {{ message.message }}</li>
+	{% endif %}
     <div class="heart-line">
         <span class="heart">💖</span>
         <span class="heart">💖</span>
@@ -176,7 +216,7 @@
 <p style="text-align: center; margin-top: 10px;">수정, 삭제가 불가능하니 예쁜 말만 부탁드립니다😉</p>
 <p style="text-align: center; margin-top: 10px;">혹시라도 잘못 작성하셨으면 @y_2chan으로 연락주세요!</p>
 <div class="form-container">
-    <form method="post" style="text-align: center; width: 60%; margin: 0px auto;" id="messageForm">
+    <form method="post" enctype="multipart/form-data" style="text-align: center; width: 60%; margin: 0px auto;" id="messageForm">
         {% csrf_token %}
         <div class="form-group">
             <label for="{{ message_form.nickname.id_for_label }}" style="font-size: 16pt;">닉네임</label>
@@ -190,8 +230,14 @@
             <textarea name="{{ message_form.message.name }}" id="{{ message_form.message.id_for_label }}" placeholder="여기에 남기고 싶은 말을 적어주세요." style="text-align: center;"></textarea>
             <!-- 메시지 경고 메시지 -->
             <div id="messageWarning" style="color: red; font-size: 10pt; margin-top: 5px;"></div>
-	    {% csrf_token %}
-            <button type="submit" name="upload_photo">사진 업로드</button>
+        </div>
+	<div class="form-group">
+	    <label for="{{ message_form.message.id_for_label }}" style="font-size: 16pt;">사진 첨부하기</label>
+	    <div class="filebox" style="margin-top: 20px;">
+		<input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
+		<label for="image">사진 첨부</label>
+            	<input type="file" name="image" id="image" style="text-align: center;">
+	    </div>
         </div>
         <div class="like-content">
             <button class="btn-secondary like-review" type="submit" name="post_message">메시지 남기기</button>
@@ -276,6 +322,23 @@
         // 유효성 검사를 통과하지 못하면 폼 제출을 방지합니다.
         return isValid;
     };
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const fileTarget = $('.filebox input[type="file"]');
+
+        fileTarget.on('change', function () {
+            // 사용자가 선택한 단일 파일
+            var file = $(this)[0].files[0];
+
+            // 선택한 파일의 이름
+            var fileName = file ? file.name : '';
+
+            // 파일 이름을 .upload-name 입력 필드에 설정
+            $(this).closest('.filebox').find('.upload-name').val(fileName);
+        });
+    });
 </script>
 </body>
 </html>

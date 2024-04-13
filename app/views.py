@@ -13,7 +13,7 @@ def home(request):
                 photo_form.save()
                 return redirect('home')
         elif 'post_message' in request.POST:
-            message_form = MessageForm(request.POST)
+            message_form = MessageForm(request.POST, request.FILES)
             if message_form.is_valid():
                 message_form.save()
                 return redirect('home')

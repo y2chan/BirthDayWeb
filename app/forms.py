@@ -8,7 +8,7 @@ class MessageForm(forms.ModelForm):
 
     class Meta:
         model = Message
-        fields = ['nickname', 'message']
+        fields = ['nickname', 'message', 'image']
 
 
 class PhotoForm(forms.ModelForm):
